@@ -21,7 +21,8 @@
     "method": "~0.1.1"
   },
   "devDependencies": {
-    "test": ">=0.4.4",
+    "test": "~0.5.2",
+    "phantomify": "~0.1.0",
     "repl-utils": ">=1.0.0"
   },
   "browserify": {
@@ -29,7 +30,9 @@
   },
   "main": "./node/http.js",
   "scripts": {
-    "test": "node test/test-all.js",
+    "test": "npm run test-server & npm run test-browser",
+    "test-browser": "node ./node_modules/phantomify/bin/cmd.js ./test/index.js http://localhost:8082/",
+    "test-server": "node ./test/server.js",
     "repl": "node node_modules/repl-utils"
   },
   "licenses": [
