@@ -3,7 +3,9 @@
   "id": "http-reduce",
   "version": "0.0.1",
   "description": "Reducible HTTP library",
-  "keywords": [ "http-reduce" ],
+  "keywords": [
+    "http-reduce"
+  ],
   "author": "Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)",
   "homepage": "https://github.com/Gozala/http-reduce",
   "repository": {
@@ -15,7 +17,8 @@
     "url": "http://github.com/Gozala/http-reduce/issues/"
   },
   "dependencies": {
-    "reducers": ">=0.1.0"
+    "reducers": "git://github.com/Gozala/reducers.git#experiment/future",
+    "method": "~0.1.1"
   },
   "devDependencies": {
     "test": ">=0.4.4",
@@ -29,8 +32,10 @@
     "test": "node test/test-all.js",
     "repl": "node node_modules/repl-utils"
   },
-  "licenses": [{
-    "type" : "MIT",
-    "url" : "https://github.com/Gozala/http-reduce/License.md"
-  }]
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Gozala/http-reduce/License.md"
+    }
+  ]
 }

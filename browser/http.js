@@ -1,33 +1,28 @@
-/* vim:set ts=2 sw=2 sts=2 expandtab */
-/*jshint asi: true undef: true es5: true node: true browser: true devel: true
-         forin: true latedef: false globalstrict: true */
-
 "use strict";
 
 var XHR = require("./xhr")
 var url = require("url")
-var convert = require("reducers/convert")
-var accumulated = require("reducers/accumulated")
+var reducible = require("reducers/reducible")
+var isReduced = require("reducers/is-reduced")
 var end = require("reducers/end")
-var error = require("reducers/error")
 var take = require("reducers/take")
 var drop = require("reducers/drop")
 var map = require("reducers/map")
 
-var Method = require('method')
+var method = require("method")
 
-var connect = Method()
+var connect = method()
 
 var keys = Object.keys
 var isArray = Array.isArray
 
 // Based of https://mxr.mozilla.org/mozilla-central/source/content/base/src/nsXMLHttpRequest.cpp#3221
 var unsupportedHeaders = [
-  'accept-charset', 'accept-encoding', 'access-control-request-headers',
-  'access-control-request-method', 'connection', 'content-length',
-  'cookie', 'cookie2', 'content-transfer-encoding', 'date', 'expect',
-  'host', 'keep-alive', 'origin', 'referer', 'te', 'trailer',
-  'transfer-encoding',  'upgrade', 'user-agent', 'via'
+  "accept-charset", "accept-encoding", "access-control-request-headers",
+  "access-control-request-method", "connection", "content-length",
+  "cookie", "cookie2", "content-transfer-encoding", "date", "expect",
+  "host", "keep-alive", "origin", "referer", "te", "trailer",
+  "transfer-encoding",  "upgrade", "user-agent", "via"
 ]
 
 function isHeaderSupported(name) {
@@ -47,7 +42,7 @@ function setHeaders(xhr, headers) {
 }
 
 function incorporateHeader(headers, source) {
-  if (source !== '') {
+  if (source !== "") {
     var m = source.match(/^([^:]+):\s*(.*)/)
     if (m) {
       var name = m[1].toLowerCase()
@@ -82,16 +77,16 @@ function readChunk(xhr, position) {
 }
 
 function Request(options) {
-  this.method = options.method ? options.method.toUpperCase() : 'GET'
+  this.method = options.method ? options.method.toUpperCase() : "GET"
   this.headers = options.headers || null
-  this.protocol = options.protocol || 'http:'
+  this.protocol = options.protocol || "http:"
   this.host = options.host
   this.hostname = options.hostname
   this.port = options.port || null
-  this.pathname = options.pathname || '/'
-  this.hash = options.hash || ''
-  this.query = options.query || ''
-  this.body = options.body || ''
+  this.pathname = options.pathname || "/"
+  this.hash = options.hash || ""
+  this.query = options.query || ""
+  this.body = options.body || ""
   this.type = options.type || null
   this.mimeType = options.mimeType || null
   this.credentials = options.credentials || null
@@ -108,7 +103,7 @@ connect.define(Request, function(request) {
   var timeout = request.timeout
   var body = request.body
 
-  return convert(request, function(self, next, state) {
+  return reducible(function(next, state) {
     var xhr = new XHR()
     if (credentials)
       xhr.open(method, uri, true, credentials.user, credentials.password)
@@ -139,12 +134,12 @@ connect.define(Request, function(request) {
 
       if (xhr.readyState === 4) {
         xhr.onreadystatechange = null
-        if (xhr.error) next(error(xhr.error), state)
-        else next(end(), state)
-      } else if (state && state.is === accumulated) {
+        if (xhr.error) next(xhr.error, state)
+        else next(end, state)
+      } else if (isReduced(state)) {
         xhr.onreadystatechange = null
         xhr.abort()
-        next(end(), state.value)
+        next(end, state.value)
       }
     }
 
@@ -152,16 +147,19 @@ connect.define(Request, function(request) {
   })
 })
 
-function request(options) { return new Request(options) }
+function request(options) {
+  return typeof(options) === "string" ? new Request({ uri: options }) :
+         new Request(options)
+}
 
 connect.define(String, function(uri) { return connect(request({ uri: uri })) })
 connect.request = request
-connect.head = function head(request) {
+connect.head = function head(options) {
   /**
   Read the head data for a single request.
   Returns a reducible.
   **/
-  return take(connect(request), 1)
+  return take(connect(request(options)), 1)
 }
 connect.headers = function headers(request) {
   /**
@@ -170,18 +168,18 @@ connect.headers = function headers(request) {
   **/
   return map(connect.head(request), function(head) { return head.headers })
 }
-connect.body = function read(request) {
+connect.body = function read(options) {
   /**
   Read the request body for a single request.
   Returns a reducible.
 
   Example:
 
-      var body = http.read('http://example.com');
+      var body = http.read("http://example.com");
       reduce(body, writeBodyToDOM);
 
   **/
-  return drop(connect(request), 1)
+  return drop(connect(request(options)), 1)
 }
 connect.read = connect.body
 
@@ -191,7 +189,7 @@ module.exports = connect
 /**
 ## Usage
 
-var content = http.content('http://localhost:8080/')
+var content = http.content("http://localhost:8080/")
 
 reduce(content, function(_, data) {
   console.log(data)
