@@ -17,7 +17,7 @@
     "url": "http://github.com/Gozala/http-reduce/issues/"
   },
   "dependencies": {
-    "reducers": "git://github.com/Gozala/reducers.git#experiment/future",
+    "reducers": "~1.0.0",
     "method": "~0.1.1"
   },
   "devDependencies": {
