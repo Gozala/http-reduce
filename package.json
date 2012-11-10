@@ -1,7 +1,7 @@
 {
   "name": "http-reduce",
   "id": "http-reduce",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reducible HTTP library",
   "keywords": [
     "http-reduce"
@@ -17,8 +17,8 @@
     "url": "http://github.com/Gozala/http-reduce/issues/"
   },
   "dependencies": {
-    "reducers": "~1.0.0",
-    "method": "~0.1.1"
+    "reducers": "~1.0.3",
+    "method": "~1.0.0"
   },
   "devDependencies": {
     "test": "~0.5.2",
