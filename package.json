@@ -22,7 +22,7 @@
     "reducible": "~1.0.1"
   },
   "devDependencies": {
-    "test": "~0.5.2",
+    "test": "~0.6.0",
     "phantomify": "~0.1.0",
     "repl-utils": ">=1.0.0"
   },
