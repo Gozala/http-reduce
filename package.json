@@ -1,10 +1,15 @@
 {
   "name": "http-reduce",
   "id": "http-reduce",
-  "version": "0.1.1",
+  "version": "0.5.0",
   "description": "Reducible HTTP library",
   "keywords": [
-    "http-reduce"
+    "http",
+    "reduce",
+    "reducible",
+    "reducers",
+    "stream",
+    "request"
   ],
   "author": "Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)",
   "homepage": "https://github.com/Gozala/http-reduce",
