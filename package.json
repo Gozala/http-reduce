@@ -17,8 +17,9 @@
     "url": "http://github.com/Gozala/http-reduce/issues/"
   },
   "dependencies": {
-    "reducers": "~1.0.3",
-    "method": "~1.0.0"
+    "reducers": "~2.0.0",
+    "method": "~1.0.0",
+    "reducible": "~1.0.1"
   },
   "devDependencies": {
     "test": "~0.5.2",
@@ -33,7 +34,8 @@
     "test": "npm run test-server & npm run test-browser",
     "test-browser": "node ./node_modules/phantomify/bin/cmd.js ./test/index.js http://localhost:8082/",
     "test-server": "node ./test/server.js",
-    "repl": "node node_modules/repl-utils"
+    "repl": "node node_modules/repl-utils",
+    "postinstall": "npm dedup"
   },
   "licenses": [
     {

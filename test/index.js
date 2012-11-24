@@ -1,7 +1,8 @@
 "use strict";
 
 var connect = require("../browser/http")
-var reduce = require("reducers/reduce")
+
+var fold = require("reducers/fold")
 var test = require("reducers/test/util/test")
 var map = require("reducers/map")
 
@@ -12,13 +13,13 @@ function url(path) {
 module.exports = {
   "test get": function(assert, done) {
     var body = connect.read(url("get"))
-    var result = reduce(body, function(result, data) {
+    var result = fold(body, function(data, result) {
       assert.equal(data, "boop", "expected data returned")
 
       return result + data
     }, "")
 
-    reduce(result, function(_, value) {
+    fold(result, function(value) {
       assert.equal(value, "boop", "data accumulated")
       done()
     })

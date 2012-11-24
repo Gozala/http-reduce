@@ -1,17 +1,20 @@
 "use strict";
 
 var XHR = require("./xhr")
+
 var url = require("url")
-var reducible = require("reducers/reducible")
-var isReduced = require("reducers/is-reduced")
-var end = require("reducers/end")
+
+var reducible = require("reducible/reducible")
+var isReduced = require("reducible/is-reduced")
+var end = require("reducible/end")
+
 var take = require("reducers/take")
 var drop = require("reducers/drop")
 var map = require("reducers/map")
 
 var method = require("method")
 
-var connect = method()
+var connect = method("connect")
 
 var keys = Object.keys
 var isArray = Array.isArray
